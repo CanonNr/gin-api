@@ -1,4 +1,4 @@
-module gin-demo
+module gin-api
 
 go 1.14
 

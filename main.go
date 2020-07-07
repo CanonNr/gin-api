@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gin-demo/router"
+	"gin-api/router"
 	"github.com/gin-gonic/gin"
 )
 
