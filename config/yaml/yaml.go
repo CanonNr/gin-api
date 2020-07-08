@@ -7,6 +7,9 @@ import (
 )
 
 type Yaml struct {
+	Server struct {
+		Port string `yaml:"port"`
+	}
 	DataSource struct {
 		Connection string `yaml:"connection"`
 		Host       string `yaml:"host"`
