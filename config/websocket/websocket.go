@@ -6,19 +6,31 @@ import (
 	"net/http"
 )
 
-var Upgrade = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
-}
+var (
+	Upgrade = websocket.Upgrader{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 1024,
+	}
+)
 
 func Run() {
+
+	var (
+		conn    *websocket.Conn
+		err     error
+		msgType int
+		msg     []byte
+	)
+
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-		conn, _ := Upgrade.Upgrade(w, r, nil) // error ignored for sake of simplicity
+
+		if conn, err = Upgrade.Upgrade(w, r, nil); err != nil {
+			return
+		}
 
 		for {
 			// 读取来自浏览器的消息
-			msgType, msg, err := conn.ReadMessage()
-			if err != nil {
+			if msgType, msg, err = conn.ReadMessage(); err != nil {
 				return
 			}
 
