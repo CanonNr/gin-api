@@ -6,20 +6,24 @@ import (
 	"log"
 )
 
-func Client() (redis.Conn, error) {
+var Client redis.Conn
+
+func init() {
 
 	config := yaml.Conf().Redis
 
-	Client, _ := redis.Dial("tcp", config.Host+":"+config.Port)
+	Client, _ = redis.Dial("tcp", config.Host+":"+config.Port)
 
-	Client.Do("AUTH", config.Password)
+	if config.Password != "" {
+		Client.Do("AUTH", config.Password)
+	}
 
 	_, err := Client.Do("SELECT", config.Database)
 
 	if err == nil {
 		log.Println("Redis Connection Succeeded")
 	} else {
-		log.Fatalln("Redis Connection Error : " + err.Error())
+		log.Println("Redis Connection Error : " + err.Error())
 	}
-	return Client, err
+
 }
