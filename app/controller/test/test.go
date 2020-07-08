@@ -17,7 +17,7 @@ func AddService(c *gin.Context) {
 
 func GetData(c *gin.Context) {
 	var user []UserModel.User
-	first := db.Db.Find(&user)
+	first := db.Db.Find(&user).Value
 	g := response.Gin{Ctx: c}
 	g.Response(200, "请求成功", first)
 }
