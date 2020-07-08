@@ -9,14 +9,20 @@ import (
 type Yaml struct {
 	DataSource struct {
 		Connection string `yaml:"connection"`
-		Host string `yaml:"host"`
-		Port string `yaml:"port"`
+		Host       string `yaml:"host"`
+		Port       string `yaml:"port"`
+		Password   string `yaml:"password"`
+		Username   string `yaml:"username"`
+		Database   string `yaml:"database"`
+	}
+
+	Redis struct {
+		Host     string `yaml:"host"`
+		Port     string `yaml:"port"`
 		Password string `yaml:"password"`
-		Username string `yaml:"username"`
 		Database string `yaml:"database"`
 	}
 }
-
 
 func Conf() *Yaml {
 	conf := new(Yaml)
