@@ -15,5 +15,6 @@ func SetupRouter(router *gin.Engine) {
 
 	router.GET("/test/get", test.AddService)
 	router.GET("/test/data", test.GetData)
+	router.GET("/test/redis", test.GetRedisData)
 
 }
