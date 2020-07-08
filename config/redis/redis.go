@@ -1,7 +1,7 @@
 package redis
 
 import (
-	"gin-api/app/util/yaml"
+	"gin-api/config/yaml"
 	"github.com/gomodule/redigo/redis"
 	"log"
 )

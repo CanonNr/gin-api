@@ -1,7 +1,7 @@
 package db
 
 import (
-	"gin-api/app/util/yaml"
+	"gin-api/config/yaml"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"

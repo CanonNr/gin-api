@@ -3,8 +3,8 @@ package test
 import (
 	"gin-api/app/common/response"
 	UserModel "gin-api/app/model/user"
-	"gin-api/app/util/db"
-	"gin-api/app/util/redis"
+	"gin-api/config/db"
+	"gin-api/config/redis"
 	"github.com/gin-gonic/gin"
 	Redigo "github.com/gomodule/redigo/redis"
 )
