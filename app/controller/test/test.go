@@ -7,6 +7,7 @@ import (
 	"gin-api/config/redis"
 	"github.com/gin-gonic/gin"
 	Redigo "github.com/gomodule/redigo/redis"
+	"github.com/idoubi/goz"
 )
 
 func AddService(c *gin.Context) {
@@ -33,6 +34,19 @@ func GetRedisData(c *gin.Context) {
 	g := response.Gin{Ctx: c}
 	g.Response(200, "请求成功", result)
 }
+
+func CurlTest(c *gin.Context) {
+	cli := goz.NewClient()
+	get, _ := cli.Get("http://baidu.com")
+	body, _ := get.GetBody()
+	contents := body.GetContents()
+	g := response.Gin{Ctx: c}
+	g.Response(200, "请求成功", contents)
+}
 func Add(a, b int) int {
+	return a + b
+}
+
+func BbDd(a, b int) int {
 	return a + b
 }
