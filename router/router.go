@@ -2,7 +2,7 @@ package router
 
 import (
 	"gin-api/app/controller/test"
-	"gin-api/router/middleware/template"
+	"gin-api/router/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,10 +14,13 @@ func SetupRouter(router *gin.Engine) {
 		})
 	})
 
-	router.GET("/test/get", template.SetUp(), test.AddService)
-	router.GET("/test/data", test.GetData)
-	router.GET("/test/redis", test.GetRedisData)
-	router.GET("/test/curl", test.CurlTest)
-	router.GET("/test/baba", test.BaBa)
+	v1 := router.Group("test", middleware.Filter())
+	{
+		v1.GET("/get", middleware.Authenticate(), test.AddService)
+		v1.GET("/data", test.GetData)
+		v1.GET("/redis", test.GetRedisData)
+		v1.GET("/curl", test.CurlTest)
+		v1.GET("/baba", test.BaBa)
+	}
 
 }
