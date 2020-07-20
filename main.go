@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gin-api/config/websocket"
+	"gin-api/app/server/WebSocket"
 	"gin-api/config/yaml"
 	"gin-api/router"
 	"github.com/gin-gonic/gin"
@@ -14,7 +14,7 @@ func WebServer() *gin.Engine {
 }
 
 func WebSocketServer() {
-	websocket.Run()
+	WebSocket.Run()
 }
 
 func main() {
