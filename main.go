@@ -1,23 +1,26 @@
 package main
 
 import (
+	"gin-api/app/server/Rpc"
+	"gin-api/app/server/Web"
 	"gin-api/app/server/WebSocket"
 	"gin-api/config/yaml"
-	"gin-api/router"
-	"github.com/gin-gonic/gin"
 )
 
-func WebServer() *gin.Engine {
-	r := gin.Default()
-	router.SetupRouter(r)
-	return r
+func WebServer() {
+	Web.Run(yaml.Conf().Server.Port)
 }
 
 func WebSocketServer() {
-	WebSocket.Run()
+	WebSocket.Run("8099")
+}
+
+func RpcServer() {
+	Rpc.Run("8077")
 }
 
 func main() {
-	go WebServer().Run(yaml.Conf().Server.Port)
-	WebSocketServer()
+	go WebServer()
+	go WebSocketServer()
+	RpcServer()
 }

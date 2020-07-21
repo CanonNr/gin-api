@@ -6,8 +6,6 @@ import (
 	"net/http"
 )
 
-var addr = flag.String("addr", ":8080", "http service address")
-
 func serveHome(w http.ResponseWriter, r *http.Request) {
 	log.Println(r.URL)
 	if r.URL.Path != "/" {
@@ -21,7 +19,8 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "test.html")
 }
 
-func Run() {
+func Run(port string) {
+	var addr = flag.String("addr", ":"+port, "http service address")
 	flag.Parse()
 	hub := newHub()
 	go hub.run()
