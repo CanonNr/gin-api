@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	Redigo "github.com/gomodule/redigo/redis"
 	"github.com/idoubi/goz"
+	"log"
 )
 
 func AddService(c *gin.Context) {
@@ -17,10 +18,15 @@ func AddService(c *gin.Context) {
 }
 
 func GetData(c *gin.Context) {
-	//var user []Model.User
-	//data := db.Db.Find(&user).Value
+
+	var DB = db.Db
 	var ClassRoomMembers []Model.ClassRoomMembers
-	data := db.Db.Find(&ClassRoomMembers).Value
+
+	data := DB.
+		Preload("User").
+		Find(&ClassRoomMembers)
+
+	log.Println(data)
 
 	g := response.Gin{Ctx: c}
 	g.Response(200, "请求成功", data)

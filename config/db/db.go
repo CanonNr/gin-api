@@ -17,6 +17,7 @@ func init() {
 
 	Db, err = gorm.Open(conf.Connection, conf.Username+":"+conf.Password+"@tcp("+conf.Host+")/"+conf.Database)
 
+	Db.LogMode(true)
 	if err != nil {
 		log.Fatal("DataBase Connection Error:" + err.Error())
 	} else {
