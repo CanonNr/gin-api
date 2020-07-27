@@ -2,7 +2,7 @@ package test
 
 import (
 	"gin-api/app/common/response"
-	UserModel "gin-api/app/model/user"
+	Model "gin-api/app/model"
 	"gin-api/config/db"
 	"gin-api/config/redis"
 	"github.com/gin-gonic/gin"
@@ -17,10 +17,13 @@ func AddService(c *gin.Context) {
 }
 
 func GetData(c *gin.Context) {
-	var user []UserModel.User
-	first := db.Db.Find(&user).Value
+	//var user []Model.User
+	//data := db.Db.Find(&user).Value
+	var ClassRoomMembers []Model.ClassRoomMembers
+	data := db.Db.Find(&ClassRoomMembers).Value
+
 	g := response.Gin{Ctx: c}
-	g.Response(200, "请求成功", first)
+	g.Response(200, "请求成功", data)
 }
 
 func GetRedisData(c *gin.Context) {
