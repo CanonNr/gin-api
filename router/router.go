@@ -26,7 +26,8 @@ func SetupRouter(router *gin.Engine) {
 
 	mq := router.Group("mq")
 	{
-		mq.GET("/get", rabbitmq.Test1)
+		mq.GET("/put", rabbitmq.Put)
+		//mq.GET("/get", rabbitmq.Get)
 
 	}
 
