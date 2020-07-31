@@ -1,6 +1,7 @@
 package router
 
 import (
+	"gin-api/app/controller/rabbitmq"
 	"gin-api/app/controller/test"
 	"gin-api/router/middleware"
 	"github.com/gin-gonic/gin"
@@ -21,6 +22,12 @@ func SetupRouter(router *gin.Engine) {
 		v1.GET("/redis", test.GetRedisData)
 		v1.GET("/curl", test.CurlTest)
 		v1.GET("/baba", test.BaBa)
+	}
+
+	mq := router.Group("mq")
+	{
+		mq.GET("/get", rabbitmq.Test1)
+
 	}
 
 }
