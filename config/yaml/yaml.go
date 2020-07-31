@@ -25,6 +25,13 @@ type Yaml struct {
 		Password string `yaml:"password"`
 		Database string `yaml:"database"`
 	}
+
+	RabbitMq struct {
+		Host     string `yaml:"host"`
+		Port     string `yaml:"port"`
+		Username string `yaml:"username"`
+		Password string `yaml:"password"`
+	}
 }
 
 func Conf() *Yaml {

@@ -4,14 +4,12 @@ import (
 	mq "gin-api/config/rabbitmq"
 	"github.com/gin-gonic/gin"
 	"github.com/streadway/amqp"
-	"log"
-	"time"
 )
 
 func Test1(c *gin.Context) {
 	client := mq.Client
 	q, err := client.QueueDeclare(
-		"hello", // name
+		"test1", // name
 		false,   // durable
 		false,   // delete when unused
 		false,   // exclusive
@@ -20,10 +18,7 @@ func Test1(c *gin.Context) {
 	)
 	mq.FailOnError(err, "Failed to declare a queue")
 
-	time.Sleep(10)
-	log.Println("--------------")
-
-	body := "Hello World!"
+	body := "锄禾日当午!"
 	err = client.Publish(
 		"",     // exchange
 		q.Name, // routing key

@@ -1,6 +1,7 @@
 package rabbitmq
 
 import (
+	"gin-api/config/yaml"
 	"github.com/streadway/amqp"
 	"log"
 )
@@ -8,7 +9,10 @@ import (
 var Client *amqp.Channel
 
 func init() {
-	conn, err := amqp.Dial("amqp://admin:123457@172.16.2.30:5672/")
+	config := yaml.Conf().RabbitMq
+	url := "amqp://" + config.Username + ":" + config.Password + "@" + config.Host + ":" + config.Port + "/"
+	//"amqp://guest:guest@localhost:5672/"
+	conn, err := amqp.Dial(url)
 	FailOnError(err, "Failed to connect to RabbitMQ")
 	//defer conn.Close()
 	ch, err := conn.Channel()
