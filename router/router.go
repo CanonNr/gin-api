@@ -2,6 +2,7 @@ package router
 
 import (
 	"gin-api/app/controller/rabbitmq"
+	"gin-api/app/controller/rabbitmq/timer"
 	"gin-api/app/controller/test"
 	"gin-api/router/middleware"
 	"github.com/gin-gonic/gin"
@@ -28,6 +29,7 @@ func SetupRouter(router *gin.Engine) {
 	{
 		mq.GET("/put", rabbitmq.Put)
 		//mq.GET("/get", rabbitmq.Get)
+		mq.GET("/set", timer.Set)
 
 	}
 

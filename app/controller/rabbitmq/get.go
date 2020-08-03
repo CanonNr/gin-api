@@ -5,11 +5,6 @@ import (
 	"log"
 )
 
-//var (
-//	Client *amqp.Channel
-//	Declare amqp.Queue
-//)
-
 func init() {
 	Client := mq.Client
 	q, err := Client.QueueDeclare(
