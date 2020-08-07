@@ -73,7 +73,7 @@ func (c *Client) readPump() {
 		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
 		log.Println(message)
 
-		c.hub.broadcast <- Message{c.id, message}
+		c.hub.Broadcast <- Message{c.id, message}
 	}
 }
 
@@ -130,7 +130,8 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256), id: utils.GetRandomString(10)}
+	id := utils.GetRandomString(10)
+	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256), id: id}
 	client.hub.register <- client
 	// Allow collection of memory referenced by the caller by doing all work in
 	// new goroutines.

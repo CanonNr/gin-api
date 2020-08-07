@@ -69,4 +69,9 @@ func SetupRouter(router *gin.Engine) {
 		}
 	})
 
+	ws := router.Group("ws")
+	{
+		ws.GET("/1/:id/:msg", test.WsPush)
+	}
+
 }

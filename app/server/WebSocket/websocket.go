@@ -6,6 +6,8 @@ import (
 	"net/http"
 )
 
+var HubServers *Hub
+
 func serveHome(w http.ResponseWriter, r *http.Request) {
 	log.Println(r.URL)
 	if r.URL.Path != "/" {
@@ -23,6 +25,7 @@ func Run(port string) {
 	var addr = flag.String("addr", ":"+port, "http service address")
 	flag.Parse()
 	hub := newHub()
+	HubServers = hub
 	go hub.run()
 	http.HandleFunc("/", serveHome)
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {

@@ -1,8 +1,10 @@
 package WebSocket
 
+import "log"
+
 type Message struct {
-	id   string
-	data []byte
+	Id   string
+	Data []byte
 }
 
 type Hub struct {
@@ -10,7 +12,7 @@ type Hub struct {
 	clients map[string]*Client
 
 	// Inbound messages from the clients.
-	broadcast chan Message
+	Broadcast chan Message
 
 	// Register requests from the clients.
 	register chan *Client
@@ -21,7 +23,7 @@ type Hub struct {
 
 func newHub() *Hub {
 	return &Hub{
-		broadcast:  make(chan Message),
+		Broadcast:  make(chan Message),
 		register:   make(chan *Client),
 		unregister: make(chan *Client),
 		clients:    make(map[string]*Client),
@@ -33,19 +35,22 @@ func (h *Hub) run() {
 		select {
 		case client := <-h.register:
 			h.clients[client.id] = client
+			log.Println("register success :" + client.id)
+			log.Println(h)
 			//h.clients[client] = true
 		case client := <-h.unregister:
 			if _, ok := h.clients[client.id]; ok {
 				delete(h.clients, client.id)
 				close(client.send)
 			}
-		case message := <-h.broadcast:
-			if client, ok := h.clients[message.id]; ok {
+		case message := <-h.Broadcast:
+			if client, ok := h.clients[message.Id]; ok {
 				select {
-				case client.send <- message.data:
+				case client.send <- message.Data:
+					log.Println("push success")
 				default:
 					close(client.send)
-					delete(h.clients, message.id)
+					delete(h.clients, message.Id)
 				}
 			}
 		}
