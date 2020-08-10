@@ -1,13 +1,14 @@
 package router
 
 import (
-	"fmt"
+	"encoding/json"
 	"gin-api/app/controller/rabbitmq"
 	"gin-api/app/controller/rabbitmq/timer"
 	"gin-api/app/controller/test"
 	"gin-api/router/middleware"
 	"github.com/gin-gonic/gin"
 	"log"
+	"time"
 )
 
 func SetupRouter(router *gin.Engine) {
@@ -40,38 +41,58 @@ func SetupRouter(router *gin.Engine) {
 		flag.GET("/get/:type", test.Get)
 	}
 
-	router.GET("/t", func(c *gin.Context) {
-
-		//message1 := make(chan int)
-		message2 := make(chan int)
-
-		go func() {
-			for i := 0; i < 10; i++ {
-				flag := <-message2
-				if flag > 5 {
-					log.Println("message2 已经 > 5")
-				}
-				//message1 <- i
-			}
-		}()
-
-		go func() {
-			for i := 0; i < 10; i++ {
-				message2 <- i
-			}
-		}()
-
-		for {
-			//msg1 := <- message1
-			msg2 := <-message2
-			//log.Printf("message1: %s \n", string(msg1))
-			fmt.Print(msg2)
-		}
-	})
-
 	ws := router.Group("ws")
 	{
 		ws.GET("/1/:id/:msg", test.WsPush)
+	}
+
+	t := router.Group("t")
+	{
+		// defer
+		t.GET("/1", func(context *gin.Context) {
+			defer log.Println("All Ending ...")
+			log.Println("---------")
+			go func() {
+				defer log.Println("Thread A Ending")
+				for i := 0; i <= 10; i++ {
+					time.Sleep(100 * time.Millisecond * time.Duration(1))
+					log.Println("Thread A")
+				}
+			}()
+
+			{
+				defer log.Println("Thread B Ending")
+				for i := 0; i <= 10; i++ {
+					time.Sleep(100 * time.Millisecond * time.Duration(1))
+					log.Println("Thread B")
+				}
+			}
+
+		})
+		// make 和 new
+		t.GET("/2", func(context *gin.Context) {
+			// make 的作用是初始化内置的数据结构，也就是我们在前面提到的切片、哈希表和 Channel；
+			// new 的作用是根据传入的类型分配一片内存空间并返回指向这片内存空间的指针；
+		})
+		// json
+		t.GET("/3", func(context *gin.Context) {
+
+			type Data struct {
+				Id   int32
+				Name string
+			}
+
+			data := new(Data)
+			data.Name = "jerry"
+			data.Id = 123
+			str, _ := json.Marshal(data)
+
+			log.Println(string(str))
+
+			p := new(Data)
+			json.Unmarshal(str, p)
+			log.Println(p)
+		})
 	}
 
 }
