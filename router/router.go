@@ -2,8 +2,6 @@ package router
 
 import (
 	"encoding/json"
-	"gin-api/app/controller/rabbitmq"
-	"gin-api/app/controller/rabbitmq/timer"
 	"gin-api/app/controller/test"
 	"gin-api/router/middleware"
 	"github.com/gin-gonic/gin"
@@ -28,12 +26,12 @@ func SetupRouter(router *gin.Engine) {
 		v1.GET("/baba", test.BaBa)
 	}
 
-	mq := router.Group("mq")
-	{
-		mq.GET("/put", rabbitmq.Put)
-		//mq.GET("/get", rabbitmq.Get)
-		mq.GET("/set", timer.Set)
-	}
+	//mq := router.Group("mq")
+	//{
+	//	mq.GET("/put", rabbitmq.Put)
+	//	//mq.GET("/get", rabbitmq.Get)
+	//	mq.GET("/set", timer.Set)
+	//}
 
 	flag := router.Group("flag")
 	{
@@ -89,9 +87,9 @@ func SetupRouter(router *gin.Engine) {
 
 			log.Println(string(str))
 
-			p := new(Data)
-			json.Unmarshal(str, p)
-			log.Println(p)
+			//p := new(Data)
+			//json.Unmarshal(str, p)
+			//log.Println(p)
 		})
 	}
 

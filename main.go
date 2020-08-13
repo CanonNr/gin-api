@@ -1,7 +1,6 @@
 package main
 
 import (
-	"gin-api/app/server/Rpc"
 	"gin-api/app/server/Web"
 	"gin-api/app/server/WebSocket"
 	"gin-api/config/yaml"
@@ -16,11 +15,10 @@ func WebSocketServer() {
 }
 
 func RpcServer() {
-	Rpc.Run("8077")
 }
 
 func main() {
-	go WebServer()
 	go WebSocketServer()
-	RpcServer()
+	WebServer()
+	//RpcServer()
 }
