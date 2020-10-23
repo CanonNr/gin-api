@@ -8,6 +8,6 @@ import (
 func Run(port string) *gin.Engine {
 	r := gin.Default()
 	router.SetupRouter(r)
-	r.Run(port)
+	r.Run(":" + port)
 	return r
 }

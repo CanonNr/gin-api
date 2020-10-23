@@ -34,11 +34,13 @@ func (h *Hub) run() {
 	for {
 		select {
 		case client := <-h.register:
+			// 当连接注册时,将连接写入clients
 			h.clients[client.id] = client
 			log.Println("register success :" + client.id)
 			log.Println(h)
 			//h.clients[client] = true
 		case client := <-h.unregister:
+			// 退出时删除在clients中删除该连接
 			if _, ok := h.clients[client.id]; ok {
 				delete(h.clients, client.id)
 				close(client.send)
